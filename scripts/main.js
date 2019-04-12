@@ -37,7 +37,7 @@ const sampleData = {
 // end sample data
 
 // initialize object, flow
-console.log('js working')
+console.log('JS = MAIN.JS WORKING')
 const main = document.querySelector('main')
 const sections = document.querySelectorAll('section')
 const input = document.querySelector('input')
@@ -48,12 +48,13 @@ const weatherViewer = {
   weather: null,
   main: main,
   sections: sections,
+  url: '',
   // get user location if allowed
   getLocation: () => {
     console.log('weatherViewer.getLocation() called')
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position =>
-        console.log(position)
+        weatherViewer.fetchData(position)
       )
     }
   },
@@ -64,14 +65,14 @@ const weatherViewer = {
     weatherViewer.fetchData(zip)
   },
   // fetch data by position or zip
-  fetchData: zip => console.log('calling api'),
+  fetchData: location => {
+    console.log('weatherViewer.fetchData() called')
+  },
   updateView: data => console.log('updating view'),
-  initialize: () => console.log('initialized'),
   data: sampleData
 }
 
 console.log(weatherViewer)
-weatherViewer.initialize()
 
 // convert kelvin to fahrenheit (k => temp in kelvin)
 const kelvinToFahrenheit = k => {
