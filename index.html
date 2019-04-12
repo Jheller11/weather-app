@@ -12,7 +12,11 @@
     <title>Weather</title>
   </head>
   <body>
-    <main>Main screen for entering zip/viewing results</main>
+    <main>
+      <button onclick="weatherViewer.getLocation()">Locate Me</button>
+      <input type="text" placeholder="zip code" />
+      <button onclick="weatherViewer.handleZip()">Search</button>
+    </main>
     <section>Further Details</section>
     <section>Further Details</section>
   </body>

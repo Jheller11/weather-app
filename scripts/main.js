@@ -40,6 +40,7 @@ const sampleData = {
 console.log('js working')
 const main = document.querySelector('main')
 const sections = document.querySelectorAll('section')
+const input = document.querySelector('input')
 
 const weatherViewer = {
   loading: true,
@@ -47,13 +48,22 @@ const weatherViewer = {
   weather: null,
   main: main,
   sections: sections,
+  // get user location if allowed
   getLocation: () => {
+    console.log('weatherViewer.getLocation() called')
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position =>
         console.log(position)
       )
     }
   },
+  // search by user provided zip
+  handleZip: () => {
+    console.log('weatherViewer.handleZip() called')
+    let zip = input.value
+    weatherViewer.fetchData(zip)
+  },
+  // fetch data by position or zip
   fetchData: zip => console.log('calling api'),
   updateView: data => console.log('updating view'),
   initialize: () => console.log('initialized'),
