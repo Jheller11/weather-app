@@ -1,18 +1,3 @@
-console.log('js working')
-const main = document.querySelector('main')
-const sections = document.querySelectorAll('section')
-
-const weatherViewer = {
-  loading: true,
-  zip: null,
-  weather: null,
-  main: main,
-  sections: sections,
-  checkLocalStorage: () => console.log('checking storage'),
-  fetchData: zip => console.log('calling api'),
-  updateView: data => console.log('updating view')
-}
-
 // sample api data response for designing views
 const sampleData = {
   coord: { lon: -0.13, lat: 51.51 },
@@ -49,4 +34,41 @@ const sampleData = {
   cod: 200
 }
 
+// end sample data
+
+// initialize object, flow
+console.log('js working')
+const main = document.querySelector('main')
+const sections = document.querySelectorAll('section')
+
+const weatherViewer = {
+  loading: true,
+  zip: null,
+  weather: null,
+  main: main,
+  sections: sections,
+  getLocation: () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position =>
+        console.log(position)
+      )
+    }
+  },
+  fetchData: zip => console.log('calling api'),
+  updateView: data => console.log('updating view'),
+  initialize: () => console.log('initialized'),
+  data: sampleData
+}
+
 console.log(weatherViewer)
+weatherViewer.initialize()
+
+// convert kelvin to fahrenheit (k => temp in kelvin)
+const kelvinToFahrenheit = k => {
+  return (k * 9) / 5 - 459.67
+}
+
+// convert kelvin to celcius (k => temp in kelvin)
+const kelvinToCelsius = k => {
+  return k - 273.5
+}
