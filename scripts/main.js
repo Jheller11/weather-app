@@ -48,13 +48,16 @@ const weatherViewer = {
   weather: null,
   main: main,
   sections: sections,
-  url: '',
+  url: 'https://api.openweathermap.org/data/2.5/weather?',
+  key: apiKey,
   // get user location if allowed
   getLocation: () => {
     console.log('weatherViewer.getLocation() called')
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position =>
-        weatherViewer.fetchData(position)
+      navigator.geolocation.getCurrentPosition(
+        position =>
+          // weatherViewer.fetchData(position)
+          false
       )
     }
   },
@@ -62,11 +65,17 @@ const weatherViewer = {
   handleZip: () => {
     console.log('weatherViewer.handleZip() called')
     let zip = input.value
-    weatherViewer.fetchData(zip)
+    weatherViewer.fetchDataByZip(zip)
   },
-  // fetch data by position or zip
-  fetchData: location => {
-    console.log('weatherViewer.fetchData() called')
+  // fetch data by zip
+  fetchDataByZip: location => {
+    console.log('weatherViewer.fetchDataByZip() called')
+    let url =
+      weatherViewer.url + `zip=${location},us` + `&APPID=${weatherViewer.key}`
+    fetch(url)
+      .then(res => res.json())
+      .then(json => console.log(json))
+      .catch(err => console.log(err))
   },
   updateView: data => console.log('updating view'),
   data: sampleData
