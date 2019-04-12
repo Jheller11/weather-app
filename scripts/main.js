@@ -54,10 +54,8 @@ const weatherViewer = {
   getLocation: () => {
     console.log('weatherViewer.getLocation() called')
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position =>
-          // weatherViewer.fetchData(position)
-          false
+      navigator.geolocation.getCurrentPosition(position =>
+        weatherViewer.fetchDataByCoords(position.coords)
       )
     }
   },
@@ -77,8 +75,18 @@ const weatherViewer = {
       .then(json => console.log(json))
       .catch(err => console.log(err))
   },
-  updateView: data => console.log('updating view'),
-  data: sampleData
+  //   fetch data when user allows geolocation
+  fetchDataByCoords: coords => {
+    let url =
+      weatherViewer.url +
+      `lat=${coords.latitude}&lon=${coords.longitude}` +
+      `&APPID=${weatherViewer.key}`
+    fetch(url)
+      .then(res => res.json())
+      .then(json => console.log(json))
+      .catch(err => console.log(err))
+  },
+  updateView: data => console.log('updating view')
 }
 
 console.log(weatherViewer)
