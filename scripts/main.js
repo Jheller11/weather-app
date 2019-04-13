@@ -40,9 +40,6 @@ const sampleData = {
 console.log('JS = MAIN.JS WORKING')
 const input = document.getElementById('zip-code-input')
 const displayElements = document.querySelectorAll('.display-element')
-displayElements.forEach(element => {
-  console.log(element.id)
-})
 
 const weatherViewer = {
   weather: null,
@@ -87,7 +84,15 @@ const weatherViewer = {
   },
   updateView: data => {
     console.log('updateView() called')
-    console.log(data)
+    displayElements.forEach(element => {
+      element.id === 'location' ? (element.innerText = data.name) : null
+      element.id === 'temperature'
+        ? (element.innerText = kelvinToFahrenheit(data.main.temp))
+        : null
+      element.id === 'conditions'
+        ? (element.innerText = data.weather[0].main)
+        : null
+    })
   }
 }
 
@@ -95,7 +100,7 @@ console.log(weatherViewer)
 
 // convert kelvin to fahrenheit (k => temp in kelvin)
 const kelvinToFahrenheit = k => {
-  return (k * 9) / 5 - 459.67
+  return parseInt((k * 9) / 5 - 459.67)
 }
 
 // convert kelvin to celcius (k => temp in kelvin)
