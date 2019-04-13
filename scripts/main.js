@@ -42,7 +42,6 @@ const input = document.getElementById('zip-code-input')
 const displayElements = document.querySelectorAll('.display-element')
 
 const weatherViewer = {
-  weather: null,
   url: 'https://api.openweathermap.org/data/2.5/weather?',
   key: apiKey,
   // get user location if allowed
@@ -96,8 +95,6 @@ const weatherViewer = {
   }
 }
 
-console.log(weatherViewer)
-
 // convert kelvin to fahrenheit (k => temp in kelvin)
 const kelvinToFahrenheit = k => {
   return parseInt((k * 9) / 5 - 459.67)
@@ -107,3 +104,5 @@ const kelvinToFahrenheit = k => {
 const kelvinToCelsius = k => {
   return k - 273.5
 }
+
+weatherViewer.updateView(sampleData)
