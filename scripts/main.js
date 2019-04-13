@@ -38,16 +38,14 @@ const sampleData = {
 
 // initialize object, flow
 console.log('JS = MAIN.JS WORKING')
-const main = document.querySelector('main')
-const sections = document.querySelectorAll('section')
-const input = document.querySelector('input')
+const input = document.getElementById('zip-code-input')
+const displayElements = document.querySelectorAll('.display-element')
+displayElements.forEach(element => {
+  console.log(element.id)
+})
 
 const weatherViewer = {
-  loading: true,
-  zip: null,
   weather: null,
-  main: main,
-  sections: sections,
   url: 'https://api.openweathermap.org/data/2.5/weather?',
   key: apiKey,
   // get user location if allowed
@@ -72,21 +70,25 @@ const weatherViewer = {
       weatherViewer.url + `zip=${location},us` + `&APPID=${weatherViewer.key}`
     fetch(url)
       .then(res => res.json())
-      .then(json => console.log(json))
+      .then(json => weatherViewer.updateView(json))
       .catch(err => console.log(err))
   },
   //   fetch data when user allows geolocation
   fetchDataByCoords: coords => {
+    console.log('weatherViewer.fetchDataByCoords() called')
     let url =
       weatherViewer.url +
       `lat=${coords.latitude}&lon=${coords.longitude}` +
       `&APPID=${weatherViewer.key}`
     fetch(url)
       .then(res => res.json())
-      .then(json => console.log(json))
+      .then(json => weatherViewer.updateView(json))
       .catch(err => console.log(err))
   },
-  updateView: data => console.log('updating view')
+  updateView: data => {
+    console.log('updateView() called')
+    console.log(data)
+  }
 }
 
 console.log(weatherViewer)
