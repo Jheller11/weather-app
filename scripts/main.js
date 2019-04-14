@@ -40,8 +40,11 @@ const sampleData = {
 console.log('JS = MAIN.JS WORKING')
 const input = document.getElementById('zip-code-input')
 const displayElements = document.querySelectorAll('.display-element')
+const weatherBox = document.getElementById('weather-box')
+const locationBox = document.getElementById('location-box')
 
 const weatherViewer = {
+  location: false,
   url: 'https://api.openweathermap.org/data/2.5/weather?',
   key: apiKey,
   // get user location if allowed
@@ -81,17 +84,36 @@ const weatherViewer = {
       .then(json => weatherViewer.updateView(json))
       .catch(err => console.log(err))
   },
+  //   insert returned data to html
   updateView: data => {
     console.log('updateView() called')
-    displayElements.forEach(element => {
-      element.id === 'location' ? (element.innerText = data.name) : null
-      element.id === 'temperature'
-        ? (element.innerText = kelvinToFahrenheit(data.main.temp))
-        : null
-      element.id === 'conditions'
-        ? (element.innerText = data.weather[0].main)
-        : null
-    })
+    if (data) {
+      weatherViewer.location = true
+      weatherViewer.switchScreens()
+      displayElements.forEach(element => {
+        element.id === 'location' ? (element.innerText = data.name) : null
+        element.id === 'temperature'
+          ? (element.innerText = kelvinToFahrenheit(data.main.temp))
+          : null
+        element.id === 'conditions'
+          ? (element.innerText = data.weather[0].main)
+          : null
+      })
+    }
+  },
+  // check status and update screen
+  switchScreens: () => {
+    if (weatherViewer.location === false) {
+      locationBox.setAttribute('style', '')
+      weatherBox.setAttribute('style', 'display: none')
+    } else {
+      locationBox.setAttribute('style', 'display: none')
+      weatherBox.setAttribute('style', '')
+    }
+  },
+  setLocationToFalse: () => {
+    weatherViewer.location = false
+    weatherViewer.switchScreens()
   }
 }
 
@@ -102,7 +124,7 @@ const kelvinToFahrenheit = k => {
 
 // convert kelvin to celcius (k => temp in kelvin)
 const kelvinToCelsius = k => {
-  return k - 273.5
+  return parseInt(k - 273.5)
 }
 
-weatherViewer.updateView(sampleData)
+weatherViewer.updateView()
